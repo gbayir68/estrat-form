@@ -1,0 +1,184 @@
+/* Genel Ayarlar: Telefon ekranına tam uyum */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 15px;
+}
+
+/* Formun Dış Kutusu */
+.form-container {
+    background: #ffffff;
+    width: 100%;
+    max-width: 400px; /* Tam bir telefon ekranı genişliği */
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Estrat Kültür Sanat Başlık Alanı */
+.logo-area {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo-area h2 {
+    color: #1a365d; /* Kurumsal lacivert tonu */
+    font-size: 22px;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.logo-area p {
+    color: #718096;
+    font-size: 14px;
+}
+
+/* GİT-UP MEKANİZMASI: Soruları Gizleme/Gösterme */
+.form-step {
+    display: none; /* İlk başta tüm soruları gizle */
+    animation: slideUp 0.4s ease-out forwards; /* Yukarı kayarak açılma efekti */
+}
+
+.form-step.active {
+    display: block; /* Sadece aktif olan soru görünsün */
+}
+
+/* Yukarı Doğru Pürüzsüz Kayma Efekti */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Soru Başlıkları ve Giriş Kutuları */
+label {
+    display: block;
+    color: #2d3748;
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+input[type="text"], input[type="date"], input[type="tel"] {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    outline: none;
+    transition: 0.2s;
+}
+
+input:focus {
+    border-color: #3182ce; /* Kutunun içine tıklayınca şık mavi çizgi */
+}
+
+/* Otomatik Yaş Grubu Kutusu */
+.calculated-age-box {
+    background: #ebf8ff;
+    border: 1px solid #bee3f8;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 15px;
+    color: #2b6cb0;
+}
+
+/* Atölye Seçim Butonları (Radio) */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.radio-option, .checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f7fafc;
+    padding: 14px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+/* Düğmeler (İleri, Geri, Onayla) */
+.btn-group {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.next-btn, .submit-btn {
+    background-color: #3182ce;
+    color: white;
+}
+
+.next-btn:hover, .submit-btn:hover {
+    background-color: #2b6cb0;
+}
+
+.prev-btn {
+    background-color: #edf2f7;
+    color: #4a5568;
+}
+
+.checkbox-option span {
+    font-size: 13px;
+    line-height: 1.4;
+    color: #4a5568;
+}
+
+/* SABİT WHATSAPP BUTONU (Can Simidi) */
+.fixed-whatsapp {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #25D366;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    text-decoration: none;
+    z-index: 9999;
+    transition: 0.2s;
+}
+
+.fixed-whatsapp:hover {
+    transform: scale(1.1);
+}
