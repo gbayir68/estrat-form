@@ -1,79 +1,89 @@
-// Aşamalar arası pürüzsüz yukarı kayma (Git-Up) fonksiyonu
-function nextStep(current, next) {
-    // Geçerli aşamadaki zorunlu alan kontrolü
-    const currentInput = document.querySelector(`#step${current} input`);
-    if (currentInput && !currentInput.checkValidity()) {
-        alert("Lütfen bu alanı doldurunuz.");
-        return;
-    }
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estrat Kültür Sanat - Ön Kayıt Formu</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
 
-    // Aktif aşamayı gizle, sonrakini yukarı kaydırarak göster
-    document.getElementById(`step${current}`).classList.remove('active');
-    document.getElementById(`step${next}`).classList.add('active');
-}
+    <div class="form-container">
+        <div class="logo-area">
+            <h2>ESTRAT KÜLTÜR SANAT</h2>
+            <p>Çocuk Atölyeleri Ön Kayıt Formu</p>
+        </div>
 
-function prevStep(current, prev) {
-    // Geri dönme fonksiyonu
-    document.getElementById(`step${current}`).classList.remove('active');
-    document.getElementById(`step${prev}`).classList.add('active');
-}
+        <form id="estratForm">
+            
+            <!-- SANA ÖZEL SÜREÇ - 1. SAYFA: VELİ BİLGİLERİ -->
+            <div class="form-page active" id="page1">
+                <h3 class="page-title">1. Veli İletişim Bilgileri</h3>
+                
+                <label for="parentName">Veli Adı - Soyadı:</label>
+                <input type="text" id="parentName" placeholder="Ahmet Yılmaz" required>
 
-// Otomatik Yaş Grubu Hesaplama Motoru
-function calculateAge() {
-    const birthDateInput = document.getElementById('birthDate').value;
-    if (!birthDateInput) return;
+                <label for="parentPhone">Veli Telefon Numarası:</label>
+                <input type="tel" id="parentPhone" placeholder="0555XXXXXXX" pattern="[0-9]{11}" required>
 
-    const birthDate = new Date(birthDateInput);
-    const birthYear = birthDate.getFullYear();
-    
-    // Şu anki yılı (2026) esas alarak yaş hesabı yapıyoruz
-    const currentYear = 2026; 
-    const age = currentYear - birthYear;
+                <button type="button" class="next-btn" onclick="goToPage(2)">Çocuk Bilgilerine Geç →</button>
+            </div>
 
-    const ageBox = document.getElementById('ageBox');
-    const ageResult = document.getElementById('ageResult');
+            <!-- 2. SAYFA: ÇOCUK & ATÖLYE BİLGİLERİ -->
+            <div class="form-page" id="page2">
+                <h3 class="page-title">2. Öğrenci & Atölye Tercihi</h3>
 
-    let group = "";
-    if (age >= 6 && age <= 9) {
-        group = "6-9 Yaş Grubu";
-    } else if (age >= 10 && age <= 12) {
-        group = "10-12 Yaş Grubu";
-    } else if (age < 6) {
-        group = "6 Yaş Altı (Atölye için Küçük)";
-    } else {
-        group = "12 Yaş Üstü Group";
-    }
+                <label for="childName">Çocuğun Adı - Soyadı:</label>
+                <input type="text" id="childName" placeholder="Zeynep Yılmaz" required>
 
-    // Ekranda şık mühür kutusunu göster ve yazdır
-    ageResult.innerText = group;
-    ageBox.style.display = "block";
-}
+                <label for="birthDate">Çocuğun Doğum Tarihi:</label>
+                <input type="date" id="birthDate" onchange="calculateAge()" required>
+                
+                <div class="calculated-age-box" id="ageBox" style="display:none;">
+                    <span>Belirlenen Yaş Grubu:</span>
+                    <strong id="ageResult">--</strong>
+                </div>
 
-// Form Tamamlandığında WhatsApp'a Bilgileri Fırlatma Motoru
-document.getElementById('gitUpForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Sayfanın yenilenmesini engelle
+                <label>Tercih Edilen Atölye:</label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="workshop" value="Yaratıcı Drama" required>
+                        <span>Yaratıcı Drama / Tiyatro</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="workshop" value="Müzik Atölyesi">
+                        <span>Müzik Atölyesi</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="workshop" value="Gastronomi Mutfak">
+                        <span>Gastronomi Mutfak</span>
+                    </label>
+                </div>
 
-    // Tüm bilgileri kutulardan çekiyoruz
-    const name = document.getElementById('childName').value;
-    const birthDate = document.getElementById('birthDate').value;
-    const ageGroup = document.getElementById('ageResult').innerText;
-    const workshop = document.querySelector('input[name="workshop"]:checked').value;
-    const phone = document.getElementById('parentPhone').value;
+                <label>Herhangi bir alerji durumu var mı?</label>
+                <div class="radio-group-row">
+                    <label class="radio-inline"><input type="radio" name="allergy" value="Yok" checked> Yok</label>
+                    <label class="radio-inline"><input type="radio" name="allergy" value="Var"> Var</label>
+                </div>
 
-    // Velinin telefonunda açılacak hazır WhatsApp metnini tasarlıyoruz
-    const whatsappText = `Merhaba Estrat Kültür Sanat! Ön kayıt formunu doldurdum.%0A%0A` +
-                         `*Öğrenci Adı Soyadı:* ${name}%0A` +
-                         `*Doğum Tarihi:* ${birthDate}%0A` +
-                         `*Belirlenen Yaş Grubu:* ${ageGroup}%0A` +
-                         `*Tercih Edilen Atölye:* ${workshop}%0A` +
-                         `*Veli Telefon:* ${phone}`;
+                <label class="checkbox-option">
+                    <input type="checkbox" id="kvkkCheck" required>
+                    <span>KVKK ve Görsel Kullanım İznini Onaylıyorum.</span>
+                </label>
 
-    // Senin WhatsApp numaran (Buradaki 5XXXXXXXXX kısmını kendi numaranla değiştir Usta)
-    const myPhoneNumber = "905322635841"; 
+                <div class="btn-group">
+                    <button type="button" class="prev-btn" onclick="goToPage(1)">← Geri</button>
+                    <button type="submit" class="submit-btn">Başvuruyu Tamamla <i class="fab fa-whatsapp"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
 
-    // Telefonun WhatsApp uygulamasını bu mesajla tetikliyoruz
-    const whatsappUrl = `https://wa.me/${myPhoneNumber}?text=${whatsappText}`;
+    <!-- Sabit WhatsApp İletişim Butonu -->
+    <a href="https://wa.me/905XXXXXXXXX?text=Merhaba,%20Estrat%20Kültür%20Sanat%20eğitimleri%20hakkında%20bilgi%20almak%20istiyorum." class="fixed-whatsapp" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
-    // Veliyi WhatsApp'a uçuruyoruz
-    window.open(whatsappUrl, '_blank');
-});
+</body>
+</html>
