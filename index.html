@@ -15,17 +15,18 @@
             <p>Çocuk Atölyeleri Ön Kayıt Formu</p>
         </div>
 
-        <form id="estratForm">
+        <!-- NOT: Buradaki FORM_ID kısmını birazdan Formspree'den alıp değiştireceğiz usta -->
+        <form id="estratForm" action="https://formspree.io/f/FORM_ID" method="POST">
             
-            <!-- SANA ÖZEL SÜREÇ - 1. SAYFA: VELİ BİLGİLERİ -->
+            <!-- 1. SAYFA: VELİ BİLGİLERİ -->
             <div class="form-page active" id="page1">
                 <h3 class="page-title">1. Veli İletişim Bilgileri</h3>
                 
                 <label for="parentName">Veli Adı - Soyadı:</label>
-                <input type="text" id="parentName" placeholder="Ahmet Yılmaz" required>
+                <input type="text" name="Veli Adı Soyadı" id="parentName" placeholder="Ahmet Yılmaz" required>
 
                 <label for="parentPhone">Veli Telefon Numarası:</label>
-                <input type="tel" id="parentPhone" placeholder="0555XXXXXXX" pattern="[0-9]{11}" required>
+                <input type="tel" name="Veli Telefonu" id="parentPhone" placeholder="0555XXXXXXX" required>
 
                 <button type="button" class="next-btn" onclick="goToPage(2)">Çocuk Bilgilerine Geç →</button>
             </div>
@@ -35,36 +36,38 @@
                 <h3 class="page-title">2. Öğrenci & Atölye Tercihi</h3>
 
                 <label for="childName">Çocuğun Adı - Soyadı:</label>
-                <input type="text" id="childName" placeholder="Zeynep Yılmaz" required>
+                <input type="text" name="Çocuğun Adı Soyadı" id="childName" placeholder="Zeynep Yılmaz" required>
 
                 <label for="birthDate">Çocuğun Doğum Tarihi:</label>
-                <input type="date" id="birthDate" onchange="calculateAge()" required>
+                <input type="date" name="Doğum Tarihi" id="birthDate" onchange="calculateAge()" required>
                 
                 <div class="calculated-age-box" id="ageBox" style="display:none;">
                     <span>Belirlenen Yaş Grubu:</span>
                     <strong id="ageResult">--</strong>
+                    <!-- Gizli input: Yaş grubunu veri tabanına göndermek için -->
+                    <input type="hidden" name="Yaş Grubu" id="hiddenAgeGroup">
                 </div>
 
                 <label>Tercih Edilen Atölye:</label>
                 <div class="radio-group">
                     <label class="radio-option">
-                        <input type="radio" name="workshop" value="Yaratıcı Drama" required>
+                        <input type="radio" name="Atölye Tercihi" value="Yaratıcı Drama" required>
                         <span>Yaratıcı Drama / Tiyatro</span>
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="workshop" value="Müzik Atölyesi">
+                        <input type="radio" name="Atölye Tercihi" value="Müzik Atölyesi">
                         <span>Müzik Atölyesi</span>
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="workshop" value="Gastronomi Mutfak">
+                        <input type="radio" name="Atölye Tercihi" value="Gastronomi Mutfak">
                         <span>Gastronomi Mutfak</span>
                     </label>
                 </div>
 
                 <label>Herhangi bir alerji durumu var mı?</label>
                 <div class="radio-group-row">
-                    <label class="radio-inline"><input type="radio" name="allergy" value="Yok" checked> Yok</label>
-                    <label class="radio-inline"><input type="radio" name="allergy" value="Var"> Var</label>
+                    <label class="radio-inline"><input type="radio" name="Alerji Durumu" value="Yok" checked> Yok</label>
+                    <label class="radio-inline"><input type="radio" name="Alerji Durumu" value="Var"> Var</label>
                 </div>
 
                 <label class="checkbox-option">
@@ -78,10 +81,19 @@
                 </div>
             </div>
         </form>
+
+        <!-- BAŞARI MESAJI (İLK BAŞTA GİZLİ) -->
+        <div id="successMessage" style="display: none; text-align: center; padding: 20px;">
+            <i class="fas fa-check-circle" style="font-size: 50px; color: #25D366; margin-bottom: 15px;"></i>
+            <h3 style="color: #1a365d; margin-bottom: 10px;">Başvurunuz Alınmıştır!</h3>
+            <p style="color: #4a5568; font-size: 14px; line-height: 1.6;">
+                Bilgileriniz veri bankamıza başarıyla kaydedildi. WhatsApp üzerinden de bilgilendirme mesajınız gönderiliyor...
+            </p>
+        </div>
     </div>
 
-    <!-- Sabit WhatsApp İletişim Butonu -->
-    <a href="https://wa.me/905XXXXXXXXX?text=Merhaba,%20Estrat%20Kültür%20Sanat%20eğitimleri%20hakkında%20bilgi%20almak%20istiyorum." class="fixed-whatsapp" target="_blank">
+    <!-- Sabit WhatsApp İletişim Butonu (Lütfen buradaki telefon numarasını düzelt usta) -->
+    <a href="https://wa.me/905XXXXXXXXX" id="fixedWA" class="fixed-whatsapp" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
 
